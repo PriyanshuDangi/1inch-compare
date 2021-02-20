@@ -90,19 +90,25 @@ const uniswap = async () => {
                 
                 let amountGet = (calculated*parseInt(quote.toTokenAmount))/Math.pow(10, tokenIn.decimals);
                 let saved = amountGet - parseFloat(swap.amountUSD);
+                // console.log(amountGet, amountUSD)
+
                 if(saved  <= 0){
                     continue;
                 }
                 let obj = {
                     tokenOut: {
                         sybmol: tokenOut.symbol,
-                        amount: amountOut
+                        amount: amountOut,
+                        out: quote.fromTokenAmount
                     },
                     tokenIn: {
                         sybmol: tokenIn.symbol,
-                        amount: amountIn
+                        amount: amountIn,
+                        in: quote.toTokenAmount
                     },
-                    saved: saved
+                    saved: saved,
+                    amountGet,
+                    amountUSD: swap.amountUSD
                 }
                 compares.push(obj);
         }
@@ -110,6 +116,9 @@ const uniswap = async () => {
         // compares.forEach((c) => {
         //     console.log(c);
         // })
+        if(compares.length == 0){
+            return NULL;
+        }
         return compares[0];
     }catch(e){
         console.log("error", e);
