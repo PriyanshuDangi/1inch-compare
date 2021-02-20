@@ -27,7 +27,11 @@ const objectToTweet = (transactionInfoToString) => {
 const test = async() =>{
   console.log("Getting data from other DEX Providers")
   const transactionInfo = await uniswap();
-  console.log("Got the data", transactionInfo)
+  console.log("Got the data", transactionInfo);
+
+  if(transactionInfo == NULL){
+    return NULL;
+  }
   objectToTweet(transactionInfo);
 };
 
