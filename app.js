@@ -1,5 +1,6 @@
 const Twitter = require("twitter");
-const config = require("./config");
+const config = require("./config/config");
+const uniswap = require("./uniswap/uniswap")
 
 var client = new Twitter({
   consumer_key: config.consumerKey,
@@ -17,3 +18,11 @@ function tweetThis(tweet) {
     })
     .catch(console.error);
 }
+
+const test = async() =>{
+  let str = "";
+  str = await uniswap();
+  console.log(str);
+}
+
+test();
