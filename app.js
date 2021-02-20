@@ -20,8 +20,19 @@ const tweetThis = (tweet) => {
     .catch(console.error);
 };
 
+const randomTweet = (inAmount, inSymbol, outAmount, outSymbol, saved, dex) => {
+  const strings = [
+    `A user bought ${inAmount} ${inSymbol} tokens using ${outAmount} ${outSymbol} Tokens, and could have saved ${saved}$ if he had used @1inchExchange. #1inch`,
+    `A transaction from ${inAmount} ${inSymbol} to ${outAmount} ${outSymbol} on 1inch could save you $${saved} when compared to ${dex} @1inchExchange. #1inch`,
+    `A ${dex} transaction from ${inAmount} ${inSymbol} to ${outAmount} ${outSymbol} will cost you $${saved} more , when compared to 1inch @1inchExchange. #1inch. `
+  ];
+
+  return strings[Math.floor(Math.random() * strings.length)];
+}
+
 const objectToTweet = (transactionInfoToString) => {
-  tweetThis(`A user bought ${transactionInfoToString.tokenIn.amount} ${transactionInfoToString.tokenIn.sybmol} tokens using ${transactionInfoToString.tokenOut.amount} ${transactionInfoToString.tokenOut.sybmol} Tokens, and could have saved ${transactionInfoToString.saved}$ if he had used @1inchExchange. #1inch`);
+  const str = randomTweet(transactionInfoToString.tokenIn.amount, transactionInfoToString.tokenIn.sybmol, transactionInfoToString.tokenOut.amount, transactionInfoToString.tokenOut.sybmol, transactionInfoToString.saved, transactionInfoToString.dex);
+  tweetThis(str);
 };
 
 const test = async() =>{
@@ -29,8 +40,8 @@ const test = async() =>{
   const transactionInfo = await uniswap();
   console.log("Got the data", transactionInfo);
 
-  if(transactionInfo == NULL){
-    return NULL;
+  if(transactionInfo == null){
+    return null;
   }
   objectToTweet(transactionInfo);
 };
@@ -39,4 +50,4 @@ const test = async() =>{
 test();
 
 // calling this function every 5 mins
-setInterval(test, 5 * 60 * 1000);
+// setInterval(test, 5 * 60 * 1000);

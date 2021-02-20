@@ -9,7 +9,7 @@ const uniswap = async () => {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ query: `{
-                pairs(first: 10, orderBy: txCount, orderDirection:desc, skip: $skip) {
+                pairs(first: 1, orderBy: txCount, orderDirection:desc, skip: $skip) {
                     id
                 }
                 }` 
@@ -108,7 +108,8 @@ const uniswap = async () => {
                     },
                     saved: saved,
                     amountGet,
-                    amountUSD: swap.amountUSD
+                    amountUSD: swap.amountUSD,
+                    dex: 'Uniswap'
                 }
                 compares.push(obj);
         }
@@ -117,7 +118,7 @@ const uniswap = async () => {
         //     console.log(c);
         // })
         if(compares.length == 0){
-            return NULL;
+            return null;
         }
         return compares[0];
     }catch(e){
