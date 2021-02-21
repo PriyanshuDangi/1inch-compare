@@ -98,12 +98,12 @@ const uniswap = async () => {
                 let obj = {
                     tokenOut: {
                         sybmol: tokenOut.symbol,
-                        amount: amountOut,
+                        amount: parseFloat(amountOut),
                         out: quote.fromTokenAmount
                     },
                     tokenIn: {
                         sybmol: tokenIn.symbol,
-                        amount: amountIn,
+                        amount: parseFloat(amountIn),
                         in: quote.toTokenAmount
                     },
                     saved: saved,

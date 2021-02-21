@@ -21,10 +21,13 @@ const tweetThis = (tweet) => {
 };
 
 const randomTweet = (inAmount, inSymbol, outAmount, outSymbol, saved, dex) => {
+  inAmount = inAmount.toFixed(2);
+  outAmount = outAmount.toFixed(2);
+  saved = saved.toFixed(2);
   const strings = [
     `A user bought ${inAmount} ${inSymbol} tokens using ${outAmount} ${outSymbol} Tokens, and could have saved ${saved}$ if he had used @1inchExchange. #1inch`,
     `A transaction from ${inAmount} ${inSymbol} to ${outAmount} ${outSymbol} on 1inch could save you $${saved} when compared to ${dex} @1inchExchange. #1inch`,
-    `A ${dex} transaction from ${inAmount} ${inSymbol} to ${outAmount} ${outSymbol} will cost you $${saved} more , when compared to 1inch @1inchExchange. #1inch. `
+    `A ${dex} transaction from ${inAmount} ${inSymbol} to ${outAmount} ${outSymbol} will cost you $${saved} more , when compared to @1inchExchange. #1inch. `
   ];
 
   return strings[Math.floor(Math.random() * strings.length)];
