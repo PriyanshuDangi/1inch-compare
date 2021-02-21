@@ -44,12 +44,22 @@ const dex = [
   sushiswap
 ]
 
-const test = async() =>{
+const run = async() =>{
   console.log("Getting data from other DEX Providers")
   let pairCount = 10, swapCount = 2;
-  const transactionInfo = await dex[Math.floor(Math.random() * dex.length)](pairCount, swapCount);
+  let dexIndex = Math.floor(Math.random() * dex.length);
+  let transactionInfo = await dex[dexIndex](pairCount, swapCount);
 
   console.log("Got the data", transactionInfo);
+  
+    let i = 0;
+    while(i < dex.length && transactionInfo == null){
+      if(i == dexIndex){
+        continue;
+      }
+      transactionInfo = await dex[i](2, 2);
+      i++;
+    }
 
   if(transactionInfo == null){
     return null;
@@ -58,10 +68,10 @@ const test = async() =>{
 };
 
 
-test();
+run();
 
 // calling this function every 5 mins
 
 // const intervalTime = config.regularInterval;
-// setInterval(test, intervalTime * 60 * 1000);
+// setInterval(run, intervalTime * 60 * 1000);
 
