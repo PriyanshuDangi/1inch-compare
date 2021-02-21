@@ -3,13 +3,13 @@ const fetch = require("node-fetch");
 let baseurl = 'https://api.thegraph.com/subgraphs/name/zippoxer/sushiswap-subgraph-fork';
 let baseQuote = 'https://api.1inch.exchange/v2.0/quote'
 
-const sushiswap = async () => {
+const sushiswap = async (pairCount = 10, swapCount = 2) => {
     try{
         let pairs = await fetch( baseurl, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ query: `{
-                pairs(first: 1, orderBy: txCount, orderDirection:desc, skip: $skip) {
+                pairs(first: ${pairCount}, orderBy: txCount, orderDirection:desc, skip: $skip) {
                     id
                 }
                 }` 
@@ -23,7 +23,7 @@ const sushiswap = async () => {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify( {query: `{
-                    swaps(first: 2, orderBy: timestamp, orderDirection: desc, where:
+                    swaps(first: ${swapCount}, orderBy: timestamp, orderDirection: desc, where:
                     { pair: "${pair.id}" }) {
                         pair {
                             token0 {

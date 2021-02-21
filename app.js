@@ -46,8 +46,8 @@ const dex = [
 
 const test = async() =>{
   console.log("Getting data from other DEX Providers")
-
-  const transactionInfo = await dex[Math.floor(Math.random() * dex.length)]();
+  let pairCount = 10, swapCount = 2;
+  const transactionInfo = await dex[Math.floor(Math.random() * dex.length)](pairCount, swapCount);
 
   console.log("Got the data", transactionInfo);
 
