@@ -1,4 +1,3 @@
-
 const fetch = require("node-fetch");
 
 let baseurl = 'https://api.thegraph.com/subgraphs/name/zippoxer/sushiswap-subgraph-fork';
@@ -57,9 +56,9 @@ const sushiswap = async () => {
             }
         }
         // console.log(swaps.length);
-        //swaps.forEach(swap => {
-          //   console.log(swap);
-        //})
+        // swaps.forEach(swap => {
+        //     console.log(swap);
+        // })
         let compares = [];
         for(let i in swaps){
             swap = swaps[i];

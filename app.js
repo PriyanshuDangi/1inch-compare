@@ -1,7 +1,8 @@
 const Twitter = require("twitter");
 const config = require("./config/config");
-const uniswap = require("./uniswap/uniswap");
-const sushiswap = require("./uniswap/sushiswap");
+const uniswap = require("./dex/uniswap");
+const sushiswap = require("./dex/sushiswap");
+
 var client = new Twitter({
   consumer_key: config.consumerKey,
   consumer_secret: config.consumerSecret,
@@ -25,7 +26,7 @@ const randomTweet = (inAmount, inSymbol, outAmount, outSymbol, saved, dex) => {
   outAmount = outAmount.toFixed(2);
   saved = saved.toFixed(2);
   const strings = [
-    `A user bought ${inAmount} ${inSymbol} tokens using ${outAmount} ${outSymbol} Tokens, and could have saved ${saved}$ if he had used @1inchExchange. #1inch`,
+    `A user bought ${inAmount} ${inSymbol} tokens using ${outAmount} ${outSymbol} Tokens, and could have saved ${saved}$ if he had used 1inch in instead of ${dex} @1inchExchange. #1inch`,
     `A transaction from ${inAmount} ${inSymbol} to ${outAmount} ${outSymbol} on 1inch could save you $${saved} when compared to ${dex} @1inchExchange. #1inch`,
     `A ${dex} transaction from ${inAmount} ${inSymbol} to ${outAmount} ${outSymbol} will cost you $${saved} more , when compared to @1inchExchange. #1inch. `
   ];
@@ -38,9 +39,16 @@ const objectToTweet = (transactionInfoToString) => {
   tweetThis(str);
 };
 
+const dex = [
+  uniswap,
+  sushiswap
+]
+
 const test = async() =>{
   console.log("Getting data from other DEX Providers")
-  const transactionInfo = await uniswap();
+
+  const transactionInfo = await dex[Math.floor(Math.random() * dex.length)]();
+
   console.log("Got the data", transactionInfo);
 
   if(transactionInfo == null){
