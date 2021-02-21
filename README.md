@@ -1,4 +1,4 @@
-# Etherpunk-Hack
+# 1inch-compare
 
 With Elon Musk tweeting about every crypto-currency in existence, you need a reliable DEX Provider to help you jump on the wagon and make some quick bucks. 
 
