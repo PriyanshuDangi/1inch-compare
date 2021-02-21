@@ -1,7 +1,7 @@
 const Twitter = require("twitter");
 const config = require("./config/config");
 const uniswap = require("./uniswap/uniswap");
-
+const sushiswap = require("./uniswap/sushiswap");
 var client = new Twitter({
   consumer_key: config.consumerKey,
   consumer_secret: config.consumerSecret,
