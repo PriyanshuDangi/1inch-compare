@@ -3,6 +3,7 @@ const config = {
     consumerSecret: "",
     accessToken: "",
     accessTokenSecret: "",
+    regularInterval: 60     //unit is in minutes
 };
 
 module.exports = config;

@@ -53,4 +53,7 @@ const test = async() =>{
 test();
 
 // calling this function every 5 mins
-// setInterval(test, 5 * 60 * 1000);
+
+// const intervalTime = config.regularInterval;
+// setInterval(test, intervalTime * 60 * 1000);
+
