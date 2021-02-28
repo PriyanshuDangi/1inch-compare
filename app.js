@@ -126,6 +126,6 @@ run();
 
 // calling this function every 5 mins
 
-// const intervalTime = config.regularInterval;
-// setInterval(run, intervalTime * 60 * 1000);
+const intervalTime = config.regularInterval;
+setInterval(run, intervalTime * 60 * 1000);
 
