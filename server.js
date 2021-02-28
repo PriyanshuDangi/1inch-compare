@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express()
+const fs = require('fs');
 // const port = 4000;
 // const Schema = require("./src/models/model")
 // const mongoose = require('mongoose');
@@ -18,6 +19,20 @@ const app = express()
 // db.once('open', function () {
 // 	console.log('connected to database');
 // });
+
+app.get("/api/value", (req, res) => {
+    let dataBuffer = fs.readFileSync("./chat/since_id.txt");
+    since_id = dataBuffer.toString();
+    res.send(since_id)
+})
+
+app.get("/api/valueUpdate/:value", (req, res) => {
+    if(req.params.value){
+        fs.writeFileSync("./chat/since_id.txt", req.params.value);
+        return res.send("done")
+    }
+    res.send("not done")
+})
 
 app.get('*', (req, res) => {
   res.send('Hello World!')

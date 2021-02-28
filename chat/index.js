@@ -157,6 +157,9 @@ const mentionFunc = async () => {
 
             console.log(tweet);
         }
+        dataBuffer = fs.readFileSync(savePath);
+        since_id = dataBuffer.toString();
+        console.log(since_id);
     } catch (err) {
         console.log(err);
     }
@@ -169,6 +172,6 @@ const mentionFunc = async () => {
 
 // test()
 
-// let time = config.regularInterval*60*1000;
-// setInterval(mentionFunc, time);
+let time = config.regularInterval*60*1000;
+setInterval(mentionFunc, time);
 mentionFunc();
