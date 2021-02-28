@@ -9,14 +9,15 @@
     "server": "node server.js",
     "chat": "node chat/index.js",
     "bot": "npm run start && npm run chat",
-    "start": "npm run server && npm run app && npm run chat",
+    "start": "npm run server & npm run app & npm run chat",
     "devChat": "env-cmd -f config/config.env node chat/index.js",
-    "devApp" : "env-cmd -f config/config.env node app.js"
+    "devApp": "env-cmd -f config/config.env node app.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "concurrently": "^6.0.0",
     "express": "^4.17.1",
     "mongoose": "^5.11.18",
     "node-fetch": "^2.6.1",
