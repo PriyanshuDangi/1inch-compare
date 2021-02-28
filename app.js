@@ -123,7 +123,7 @@ const run = async() =>{
 };
 
 
-// run();
+run();
 
 // calling this function every 5 mins
 

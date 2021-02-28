@@ -179,4 +179,4 @@ const mentionFunc = async () => {
 let time = parseInt(config.regularInterval*60*1000);
 // console.log(typeof time);
 setInterval(mentionFunc, time);
-// mentionFunc();
+mentionFunc();
