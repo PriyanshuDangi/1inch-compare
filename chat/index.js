@@ -108,7 +108,7 @@ const tweetThis = async (text) => {
         }
     }
     if (i1 == -1 || i2 == -1) {
-        returnText = 'Not a supported query. Use !allTokens to get the list of supported coins';
+        returnText = null;
         return returnText
     } else if (i1 == i2) {
         returnText = 'both coins should be different'
@@ -152,6 +152,9 @@ const mentionFunc = async () => {
         for (let i in mentions) {
             let mention = mentions[i];
             let tweetText = await tweetThis(mention.text);
+            if(tweetText == null || tweetText == ''){
+                tweetText = "hey" + "@" + mention.user.screen_name + " , you can use our bot commands to check the best conversion rates. try \n" + "@1inch_comapre wbtc>eth"
+            }
             const tweet = await client
                 .post("statuses/update", { in_reply_to_status_id: mention.id_str, status: "@" + mention.user.screen_name + " " + tweetText })
             fs.writeFileSync(savePath, mention.id_str);
