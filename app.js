@@ -97,6 +97,7 @@ const dex = [
 let forSave = null;
 
 const run = async() =>{
+  console.log("run function")
   console.log("Getting data from other DEX Providers")
   let pairCount = 2, swapCount = 2;
   let dexIndex = Math.floor(Math.random() * dex.length);
@@ -122,10 +123,10 @@ const run = async() =>{
 };
 
 
-run();
+// run();
 
 // calling this function every 5 mins
 
-const intervalTime = config.regularInterval;
-setInterval(run, intervalTime * 60 * 1000);
+const time = parseInt(config.regularInterval*60*1000);
+setInterval(run, time);
 

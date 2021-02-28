@@ -127,6 +127,7 @@ const tweetThis = async (text) => {
 
 const mentionFunc = async () => {
     try {
+        console.log("mentionFunc")
         let since_id = null;
         if (fs.existsSync(savePath)) {
             let dataBuffer = fs.readFileSync(savePath)
@@ -172,6 +173,7 @@ const mentionFunc = async () => {
 
 // test()
 
-let time = config.regularInterval*60*1000;
+let time = parseInt(config.regularInterval*60*1000);
+// console.log(typeof time);
 setInterval(mentionFunc, time);
-mentionFunc();
+// mentionFunc();
