@@ -41,6 +41,9 @@ const uniswap = async (pairCount = 10, swapCount = 2) => {
                                 derivedETH
                             }
                         }
+                        transaction {
+                            id
+                        }
                         amount0In
                         amount0Out
                         amount1In
@@ -109,7 +112,8 @@ const uniswap = async (pairCount = 10, swapCount = 2) => {
                     saved: saved,
                     amountGet,
                     amountUSD: swap.amountUSD,
-                    dex: 'Uniswap'
+                    dex: 'Uniswap',
+                    transactionId: swap.transaction.id
                 }
                 compares.push(obj);
         }
@@ -117,6 +121,7 @@ const uniswap = async (pairCount = 10, swapCount = 2) => {
         // compares.forEach((c) => {
         //     console.log(c);
         // })
+        console.log(compares.length);
         if(compares.length == 0){
             return null;
         }
@@ -129,5 +134,7 @@ const uniswap = async (pairCount = 10, swapCount = 2) => {
 function forSorting(a, b){
     return b.saved-a.saved;
 }
+
+// uniswap(1, 1);
 
 module.exports = uniswap;

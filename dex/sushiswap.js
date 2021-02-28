@@ -41,6 +41,9 @@ const sushiswap = async (pairCount = 10, swapCount = 2) => {
                                 derivedETH
                             }
                         }
+                        transaction {
+                            id
+                        }
                         amount0In
                         amount0Out
                         amount1In
@@ -109,7 +112,8 @@ const sushiswap = async (pairCount = 10, swapCount = 2) => {
                     saved: saved,
                     amountGet,
                     amountUSD: swap.amountUSD,
-                    dex: 'Sushiswap'
+                    dex: 'Sushiswap',
+                    transactionId: swap.transaction.id
                 }
                 compares.push(obj);
         }
