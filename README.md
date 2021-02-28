@@ -22,6 +22,13 @@ For this tweet(or transaction) completed over uniswap we compared it with 1inch.
 
 **It is clear by this data if this user had used 1inch.exchange[1inch.exchange](https://1inch.exchange/) for this transaction, he would have got more WETH for same price or got same WETH for a lower price.**
 
+## Screenshot of chatbot
+
+We also made a chatbot so that user can check the current conversion ratio on bot itself
+**Additionally, users can tag @1inch_compare with a tweet like ETH>DAI to get an instant quote from @1inch.exchange!**
+
+<img src="./images/chat.jpeg" height="350">
+
 ## Setup
 
 ```Bash
@@ -34,6 +41,7 @@ cp config/config.example.js config/config.js
 ```
 npm install
 npm start
+npm run chat
 ```
  
  ## Contributions

@@ -2,6 +2,7 @@ const Twitter = require("twitter");
 const config = require("./config/config");
 const uniswap = require("./dex/uniswap");
 const sushiswap = require("./dex/sushiswap");
+const balancer = require("./dex/balancer")
 const mongoose = require('mongoose');
 
 const Schema = require("./src/models/model");
@@ -15,7 +16,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/oneinchbot', {
 
 var db = mongoose.connection;
 
-// db.on('error', console.error.bind(console, 'connection error:'));
+db.on('error', console.error.bind(console, 'connection error:'));
 
 db.once('open', function () {
 	console.log('connected to database');
