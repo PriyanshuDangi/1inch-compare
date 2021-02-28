@@ -3,7 +3,7 @@ const config = require("./config/config-heroku");
 const uniswap = require("./dex/uniswap");
 const sushiswap = require("./dex/sushiswap");
 const balancer = require("./dex/balancer")
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose');
 
 // const Schema = require("./src/models/model");
 
@@ -100,7 +100,7 @@ const run = async() =>{
   console.log("Getting data from other DEX Providers")
   let pairCount = 2, swapCount = 2;
   let dexIndex = Math.floor(Math.random() * dex.length);
-  let transactionInfo = await dex[dexIndex](pairCount, swapCount);
+  let transactionInfo = await dex[0](pairCount, swapCount);
 
   console.log("Got the data", transactionInfo);
   
