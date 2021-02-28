@@ -9,7 +9,9 @@
     "server": "node server.js",
     "chat": "node chat/index.js",
     "bot": "npm run start && npm run chat",
-    "start" : "npm run app && npm run chat"
+    "start": "npm run app && npm run chat",
+    "devChat": "env-cmd -f config/config.env node chat/index.js",
+    "devApp" : "env-cmd -f config/config.env node app.js"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +23,7 @@
     "twitter": "^1.7.1"
   },
   "devDependencies": {
+    "env-cmd": "^10.1.0",
     "nodemon": "^2.0.7"
   }
 }
