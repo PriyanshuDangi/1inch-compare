@@ -9,7 +9,8 @@
     "server": "node server.js",
     "chat": "node chat/index.js",
     "bot": "npm run start && npm run chat",
-    "start": "npm run app && npm run chat",
+    "start": "node app.js",
+
     "devApp": "env-cmd -f config/config.env node app.js"
   },
   "keywords": [],
