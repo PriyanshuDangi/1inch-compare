@@ -92,7 +92,8 @@ const tweetThis = async (text) => {
         return returnText;
     }
     if (!text.includes('&gt;')) {
-        returnText = 'Not a supported query, tag @1inch_compare and use !help'
+        // returnText = 'Not a supported query, tag @1inch_compare and use !help'
+        returnText = null;
         return returnText;
     }
     let [t1, t2] = text.split('&gt;');
