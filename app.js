@@ -2,6 +2,9 @@ const Twitter = require("twitter");
 const config = require("./config/config");
 const uniswap = require("./dex/uniswap");
 const sushiswap = require("./dex/sushiswap");
+const mongoose = require('mongoose');
+
+const Schema = require("./src/models/model");
 
 var client = new Twitter({
   consumer_key: config.consumerKey,
@@ -18,6 +21,28 @@ const tweetThis = (tweet) => {
     .then((result) => {
       console.log('You successfully tweeted this : "' + result.text + '"');
       console.log(result.entities.urls[0].url);
+
+      console.log(forSave);
+      // const schema = new Schema({
+      //   hash: forSave.transactionId,
+      //   dex: forSave.dex,
+      //   tokenIn: {
+      //     symbol: forSave.tokenIn.sybmol,
+      //     amount: forSave.tokenIn.amount,
+      //     image: 'https://avatars.githubusercontent.com/u/43341157?s=200&v=4'
+      //   },
+      //   tokenOut: {
+      //     symbol: forSave.tokenOut.symbol,
+      //     amount: forSave.tokenOut.amount ,
+      //     image: 'https://avatars.githubusercontent.com/u/43341157?s=200&v=4'
+      //   },
+      //   saved: forSave.saved,
+      //   tweetLink: result.entities.urls[0].url
+      // });
+
+      // schema.save()
+      // .then((s) => console.log(s))
+      // .catch(err => console.log(err));
     })
     .catch(console.error);
 };
@@ -49,6 +74,8 @@ const dex = [
   sushiswap
 ]
 
+let forSave = null;
+
 const run = async() =>{
   console.log("Getting data from other DEX Providers")
   let pairCount = 2, swapCount = 2;
@@ -69,6 +96,17 @@ const run = async() =>{
   if(transactionInfo == null){
     return null;
   }
+  forSave = transactionInfo;
+  const schema = new Schema({
+    hash: '0x2179a813422ba0935aef590b6cba098fbf8dcc67c8046349589b5b3644ba6116'
+})
+schema.save().then((s) => {
+  console.log(s);
+}).catch(err => {
+  console.log(err)
+});
+console.log('saved');
+return;
   objectToTweet(transactionInfo);
 };
 
