@@ -6,6 +6,21 @@ const mongoose = require('mongoose');
 
 const Schema = require("./src/models/model");
 
+mongoose.connect('mongodb://127.0.0.1:27017/oneinchbot', {
+	useNewUrlParser: true,
+	useUnifiedTopology: true,
+	useCreateIndex: true,
+	useFindAndModify: false,
+});
+
+var db = mongoose.connection;
+
+// db.on('error', console.error.bind(console, 'connection error:'));
+
+db.once('open', function () {
+	console.log('connected to database');
+});
+
 var client = new Twitter({
   consumer_key: config.consumerKey,
   consumer_secret: config.consumerSecret,
@@ -23,26 +38,30 @@ const tweetThis = (tweet) => {
       console.log(result.entities.urls[0].url);
 
       console.log(forSave);
-      // const schema = new Schema({
-      //   hash: forSave.transactionId,
-      //   dex: forSave.dex,
-      //   tokenIn: {
-      //     symbol: forSave.tokenIn.sybmol,
-      //     amount: forSave.tokenIn.amount,
-      //     image: 'https://avatars.githubusercontent.com/u/43341157?s=200&v=4'
-      //   },
-      //   tokenOut: {
-      //     symbol: forSave.tokenOut.symbol,
-      //     amount: forSave.tokenOut.amount ,
-      //     image: 'https://avatars.githubusercontent.com/u/43341157?s=200&v=4'
-      //   },
-      //   saved: forSave.saved,
-      //   tweetLink: result.entities.urls[0].url
-      // });
-
-      // schema.save()
-      // .then((s) => console.log(s))
-      // .catch(err => console.log(err));
+      if(forSave){
+        const schema = new Schema({
+          hash: forSave.transactionId,
+          dex: forSave.dex,
+          tokenIn: {
+            symbol: forSave.tokenIn.sybmol,
+            amount: forSave.tokenIn.amount,
+            image: forSave.tokenIn.image
+          },
+          tokenOut: {
+            symbol: forSave.tokenOut.sybmol,
+            amount: forSave.tokenOut.amount ,
+            image: forSave.tokenOut.image
+          },
+          saved: forSave.saved,
+          tweetLink: result.entities.urls[0].url
+        });
+  
+        schema.save()
+        .then((s) => {
+          console.log(s);
+        })
+        .catch(err => console.log(err));
+      }
     })
     .catch(console.error);
 };
@@ -97,16 +116,7 @@ const run = async() =>{
     return null;
   }
   forSave = transactionInfo;
-  const schema = new Schema({
-    hash: '0x2179a813422ba0935aef590b6cba098fbf8dcc67c8046349589b5b3644ba6116'
-})
-schema.save().then((s) => {
-  console.log(s);
-}).catch(err => {
-  console.log(err)
-});
-console.log('saved');
-return;
+
   objectToTweet(transactionInfo);
 };
 

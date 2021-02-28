@@ -102,12 +102,16 @@ const uniswap = async (pairCount = 10, swapCount = 2) => {
                     tokenOut: {
                         sybmol: tokenOut.symbol,
                         amount: parseFloat(amountOut),
-                        out: quote.fromTokenAmount
+                        out: quote.fromTokenAmount,
+                        image: quote.fromToken.logoURI,
+                        name: quote.fromToken.name,
                     },
                     tokenIn: {
                         sybmol: tokenIn.symbol,
                         amount: parseFloat(amountIn),
-                        in: quote.toTokenAmount
+                        in: quote.toTokenAmount,
+                        image: quote.toToken.logoURI,
+                        name: quote.toToken.name,
                     },
                     saved: saved,
                     amountGet,
