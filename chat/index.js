@@ -85,6 +85,12 @@ const tweetThis = async (text) => {
         returnText += "\n" + "tag us and use token1>token2, e.g. weth>dai"
         return returnText;
     }
+    if(text.includes("!allcommands")) {
+        returnText = "!alltokens" + "\n";
+        returnText += "!help" + "\n";
+        returnText += "token1>token2" + "\n"
+        return returnText;
+    }
     if (!text.includes('&gt;')) {
         returnText = 'Not a supported query, tag @1inch_compare and use !help'
         return returnText;
@@ -135,17 +141,18 @@ const mentionFunc = async () => {
                 "since_id": since_id
             }
         }
-        console.log(since_id);
+        console.log(since_id, params);
 
         let url = '/statuses/mentions_timeline.json'
         const mentions = await client.get(url, params);
         console.log(mentions)
+        // return;
         console.log(since_id);
         for (let i in mentions) {
             let mention = mentions[i];
             let tweetText = await tweetThis(mention.text);
             const tweet = await client
-                .post("statuses/update", { in_reply_to_status_id: mentions[0].id_str, status: "@" + mentions[0].user.screen_name + " " + tweetText })
+                .post("statuses/update", { in_reply_to_status_id: mention.id_str, status: "@" + mention.user.screen_name + " " + tweetText })
             fs.writeFileSync(savePath, mention.id_str);
 
             console.log(tweet);
