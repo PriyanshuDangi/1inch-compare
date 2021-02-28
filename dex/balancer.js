@@ -23,11 +23,10 @@ const balancer = async(swapCount = 2) => {
                 }`
             }),
         }).then(res => res.json());
-        console.log(swap.data.swaps)
         swaps.push(...swap.data.swaps);
-
-
+        
         let compares = [];
+
         for(let i in swaps) {
             let swap = swaps[i];
             let tokenIn = await fetch(baseurl, {
@@ -35,63 +34,82 @@ const balancer = async(swapCount = 2) => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify( { query: `{
                     tokenPrice(id: "${swaps[i].tokenIn}") {
-                        decimals,
-                        price,
-                        name,
+                        decimals
+                        price
+                        name
                         symbol
                     }
                 }`}),
-            }).then(res =>res.json());
+            }).then(res => res.json());
 
             let tokenOut = await fetch(baseurl, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify( { query: `{
                     tokenPrice(id: "${swaps[i].tokenOut}") {
-                        decimals,
-                        price,
-                        name,
+                        decimals
+                        price
+                        name
                         symbol
                     }
                 }`}),
             }).then(res =>res.json());
+            
+            tokenIn = tokenIn.data.tokenPrice;
+            tokenOut = tokenOut.data.tokenPrice;
 
-            // let amount = parseInt(swapamountOut)
-                base = baseQuote + "?fromTokenAddress=" + swap.tokenOut + "&toTokenAddress=" +swap.tokenIn + "&amount=" + swap.tokenAmountOut;
-                let quote = await fetch(base, {
-                    method: 'GET'
-                }).then(res => res.json());
+            let amount = parseInt(swap.tokenAmountOut * Math.pow(10, tokenOut.decimals));
+            base = baseQuote + "?fromTokenAddress=" + swap.tokenOut + "&toTokenAddress=" +swap.tokenIn + "&amount=" + amount;
+ 
+            let quote = await fetch(base, {
+                method: 'GET'
+            }).then(res => res.json());
+
+            let usdRate = parseFloat(tokenIn.price);
+            let amountGet = usdRate*parseInt(quote.toTokenAmount)/Math.pow(10, tokenIn.decimals);
+            let saved = amountGet - parseFloat(swap.value);
+
+            if(saved <= 0)
+                continue;
 
             let obj = {
                 tokenOut: {
                     sybmol: tokenOut.symbol,
-                    amount: parseFloat(amountOut),
-                    out: quote.fromTokenAmount
+                    amount: parseFloat(swap.tokenAmountOut),
+                    out: quote.fromTokenAmount,
+                    name: quote.fromToken.name,
                 },
                 tokenIn: {
                     sybmol: tokenIn.symbol,
-                    amount: parseFloat(amountIn),
-                    in: quote.toTokenAmount
+                    amount: parseFloat(swap.tokenAmountIn),
+                    in: quote.toTokenAmount,
+                    name: quote.toToken.name,
                 },
                 saved: saved,
                 amountGet,
-                amountUSD: swap.amountUSD,
+                amountUSD: swap.value,
                 dex: 'Balancer',
-                transactionId: swap.transaction.id
+                transactionId: swap.id.split('-')[0]
             }
             compares.push(obj);
         }
-        
-        decimals.forEach(sym => console.log(sym));
-
-        let compares = [];
-        for(let i in swap) {
-            swap = swaps[i];
+        compares.sort(forSorting);
+        console.log(compares.length);
+        if(compares.length == 0) {
+            return null;
         }
+        //console.log(compares[0]);
+        return compares[0];
 
     } catch(e) {
         console.log("error", e);
     }
 }
 
-balancer();
+function forSorting(a, b) {
+    return b.saved - a.saved;
+}
+
+// balancer();
+
+module.exports = balancer;
