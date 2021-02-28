@@ -3,6 +3,7 @@ const config = require("../config/config");
 const fs = require('fs');
 let baseQuote = 'https://api.1inch.exchange/v2.0/quote';
 const fetch = require("node-fetch");
+let savePath = "./chat/since_id.txt";
 
 var client = new Twitter({
     consumer_key: config.consumerKey,
@@ -66,96 +67,101 @@ const tokens = [
     }
 ];
 
-// @1inch-compare eth->dai
+// @1inch_compare eth->dai
 const tweetThis = async (text) => {
-    text = text.replace('@1inch-compare', '');
+    text = text.replace('@Shreyas99779212', '')
+    text = text.replace('@1inch_compare', '');
     text = text.trim();
     text = text.toLowerCase();
     let returnText = '';
-    if(text.includes('!help')){
+    if (text.includes('!help')) {
         returnText = "This is the bot to get the money you can save when you choose 1inch.exchange over other exchange" + "\n" + "tag us and use !allTokens to get the list of all tokens";
         return returnText;
     }
-    if(text.includes("!alltokens")){
+    if (text.includes("!alltokens")) {
         tokens.forEach(t => {
             returnText += t.symbol + ', '
         })
-        returnText += "tag us and use token1>token2, e.g. weth>dai"
-    }
-    if(!text.includes('>')){
-        returnText = 'Not a supported query, tag @1inch-compare and use !help'
+        returnText += "\n" + "tag us and use token1>token2, e.g. weth>dai"
         return returnText;
     }
-    let [t1, t2] = text.split('>');
+    if (!text.includes('&gt;')) {
+        returnText = 'Not a supported query, tag @1inch_compare and use !help'
+        return returnText;
+    }
+    let [t1, t2] = text.split('&gt;');
     t1.trim();
     t2.trim();
     let i1 = -1, i2 = -1;
-    for(let i in tokens){
-        if(tokens[i].symbol == t1){
+    for (let i in tokens) {
+        if (tokens[i].symbol == t1) {
             i1 = i;
         }
-        if(tokens[i].symbol == t2){
+        if (tokens[i].symbol == t2) {
             i2 = i;
         }
     }
-    if(i1 == -1 || i2 == -1){
+    if (i1 == -1 || i2 == -1) {
         returnText = 'Not a supported query. Use !allTokens to get the list of supported coins';
         return returnText
-    }else if(i1 == i2){
+    } else if (i1 == i2) {
         returnText = 'both coins should be different'
         return returnText
     }
     let amount = Math.pow(10, tokens[i1].decimals)
-    base = baseQuote + "?fromTokenAddress=" + tokens[i1].id + "&toTokenAddress=" +tokens[i2].id + "&amount=" + amount;
+    base = baseQuote + "?fromTokenAddress=" + tokens[i1].id + "&toTokenAddress=" + tokens[i2].id + "&amount=" + amount;
     let quote = await fetch(base, {
         method: 'GET'
     }).then(res => res.json());
-    let outAmount = parseFloat(quote.toTokenAmount/ Math.pow(10, tokens[i2].decimals));
-    let inAmount = parseFloat(quote.fromTokenAmount/ Math.pow(10, tokens[i1].decimals))
-    returnText = "You can get " + outAmount +" " + tokens[i2].symbol + " from " + 1 + " " + tokens[i1].symbol + ", using 1inch. Its the best rate you can get, you can check yourself!"
+    let outAmount = parseFloat(quote.toTokenAmount / Math.pow(10, tokens[i2].decimals));
+    let inAmount = parseFloat(quote.fromTokenAmount / Math.pow(10, tokens[i1].decimals))
+    returnText = "You can get " + outAmount + " " + tokens[i2].symbol + " from " + 1 + " " + tokens[i1].symbol + ", using 1inch. Its the best rate you can get, you can check yourself!"
     return returnText;
 }
 
-const mentionFunc = async() => {
-    try{
-    let since_id = null;
-    if(fs.existsSync('./since_id.txt')){
-        let dataBuffer = fs.readFileSync('./since_id.txt')
-        since_id = dataBuffer.toString();
-    }
-    
-    let params = {
-        "count": "5"
-    }
-    if (since_id){
-        params = {
-            "count": "5",
-            "since_id": since_id
+const mentionFunc = async () => {
+    try {
+        let since_id = null;
+        if (fs.existsSync(savePath)) {
+            let dataBuffer = fs.readFileSync(savePath)
+            since_id = dataBuffer.toString();
         }
-    }
-    let url = '/statuses/mentions_timeline.json'
-    const mentions = await client.get(url, params);
-    console.log(since_id);
-    for(let i in mentions){
-        let mention = mentions[i];
-        let tweetText = await tweetThis(mention.text);
-        const tweet = await client
-        .post("statuses/update", { in_reply_to_status_id: mentions[0].id_str, status:  "@" + mentions[0].user.screen_name + " " + tweetText })
-        fs.writeFileSync('./since_id.txt', 'mention.id_str');
+        let params = {
+            "count": "5"
+        }
+        if (since_id) {
+            params = {
+                "count": "5",
+                "since_id": since_id
+            }
+        }
+        console.log(since_id);
 
-        console.log(tweet);
-    }}catch(err){
+        let url = '/statuses/mentions_timeline.json'
+        const mentions = await client.get(url, params);
+        console.log(mentions)
+        console.log(since_id);
+        for (let i in mentions) {
+            let mention = mentions[i];
+            let tweetText = await tweetThis(mention.text);
+            const tweet = await client
+                .post("statuses/update", { in_reply_to_status_id: mentions[0].id_str, status: "@" + mentions[0].user.screen_name + " " + tweetText })
+            fs.writeFileSync(savePath, mention.id_str);
+
+            console.log(tweet);
+        }
+    } catch (err) {
         console.log(err);
     }
 }
 
-const test = async () => {
-   let t = await tweetThis("@1inch-compare eth>wbtc");
-   console.log(t);
-}
+// const test = async () => {
+//    let t = await tweetThis("@1inch_compare eth>wbtc");
+//    console.log(t);
+// }
 
-test()
+// test()
 
 
 // setInterval(mentionFunc, 60*1000)
-// mentionFunc();
+mentionFunc();
