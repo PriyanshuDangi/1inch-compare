@@ -30,7 +30,7 @@ app.post("*", async (req, res) => {
     })
 })
 
-port = process.env.PORT
+let port = process.env.PORT
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })
