@@ -5,10 +5,11 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js",
+    "app": "node app.js",
     "server": "node server.js",
     "chat": "node chat/index.js",
-    "bot": "npm run start && npm run chat"
+    "bot": "npm run start && npm run chat",
+    "start" : "npm run app && npm run chat"
   },
   "keywords": [],
   "author": "",
