@@ -5,22 +5,22 @@ const sushiswap = require("./dex/sushiswap");
 const balancer = require("./dex/balancer")
 const mongoose = require('mongoose');
 
-const Schema = require("./src/models/model");
+// const Schema = require("./src/models/model");
 
-mongoose.connect('mongodb://127.0.0.1:27017/oneinchbot', {
-	useNewUrlParser: true,
-	useUnifiedTopology: true,
-	useCreateIndex: true,
-	useFindAndModify: false,
-});
+// mongoose.connect('mongodb://127.0.0.1:27017/oneinchbot', {
+// 	useNewUrlParser: true,
+// 	useUnifiedTopology: true,
+// 	useCreateIndex: true,
+// 	useFindAndModify: false,
+// });
 
-var db = mongoose.connection;
+// var db = mongoose.connection;
 
-db.on('error', console.error.bind(console, 'connection error:'));
+// db.on('error', console.error.bind(console, 'connection error:'));
 
-db.once('open', function () {
-	console.log('connected to database');
-});
+// db.once('open', function () {
+// 	console.log('connected to database');
+// });
 
 var client = new Twitter({
   consumer_key: config.consumerKey,
@@ -39,30 +39,30 @@ const tweetThis = (tweet) => {
       console.log(result.entities.urls[0].url);
 
       console.log(forSave);
-      if(forSave){
-        const schema = new Schema({
-          hash: forSave.transactionId,
-          dex: forSave.dex,
-          tokenIn: {
-            symbol: forSave.tokenIn.sybmol,
-            amount: forSave.tokenIn.amount,
-            image: forSave.tokenIn.image
-          },
-          tokenOut: {
-            symbol: forSave.tokenOut.sybmol,
-            amount: forSave.tokenOut.amount ,
-            image: forSave.tokenOut.image
-          },
-          saved: forSave.saved,
-          tweetLink: result.entities.urls[0].url
-        });
-  
-        schema.save()
-        .then((s) => {
-          console.log(s);
-        })
-        .catch(err => console.log(err));
-      }
+      // if(forSave){
+      //   const schema = new Schema({
+      //     hash: forSave.transactionId,
+      //     dex: forSave.dex,
+      //     tokenIn: {
+      //       symbol: forSave.tokenIn.sybmol,
+      //       amount: forSave.tokenIn.amount,
+      //       image: forSave.tokenIn.image
+      //     },
+      //     tokenOut: {
+      //       symbol: forSave.tokenOut.sybmol,
+      //       amount: forSave.tokenOut.amount ,
+      //       image: forSave.tokenOut.image
+      //     },
+      //     saved: forSave.saved,
+      //     tweetLink: result.entities.urls[0].url
+      //   });
+  // 
+        // schema.save()
+        // .then((s) => {
+        //   console.log(s);
+        // })
+        // .catch(err => console.log(err));
+      // }
     })
     .catch(console.error);
 };
