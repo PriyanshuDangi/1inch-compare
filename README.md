@@ -27,7 +27,12 @@ For this tweet(or transaction) completed over uniswap we compared it with 1inch.
 We also made a chatbot so that user can check the current conversion ratio on bot itself
 **Additionally, users can tag @1inch_compare with a tweet like ETH>DAI to get an instant quote from @1inch.exchange!**
 
-<img src="./images/chat.jpeg" height="350">
+<img src="./images/chat.jpeg" height="400">
+
+
+## frontend
+
+<img src="./images/frontend.jpeg">
 
 ## Setup
 
