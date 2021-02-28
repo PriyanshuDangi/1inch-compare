@@ -1,5 +1,5 @@
 const Twitter = require("twitter");
-const config = require("../config/config");
+const config = require("../config/config-heroku");
 const fs = require('fs');
 let baseQuote = 'https://api.1inch.exchange/v2.0/quote';
 const fetch = require("node-fetch");

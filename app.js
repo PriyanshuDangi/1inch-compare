@@ -1,5 +1,5 @@
 const Twitter = require("twitter");
-const config = require("./config/config");
+const config = require("./config/config-heroku");
 const uniswap = require("./dex/uniswap");
 const sushiswap = require("./dex/sushiswap");
 const balancer = require("./dex/balancer")
