@@ -169,6 +169,6 @@ const mentionFunc = async () => {
 
 // test()
 
-// let time = config.regularInterval*60*1000;
-// setInterval(mentionFunc, time);
+let time = config.regularInterval*60*1000;
+setInterval(mentionFunc, time);
 mentionFunc();
