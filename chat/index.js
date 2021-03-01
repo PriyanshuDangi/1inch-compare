@@ -156,13 +156,14 @@ const mentionFunc = async () => {
             if(tweetText == null || tweetText == ''){
                 tweetText = "hey" + "@" + mention.user.screen_name + " , you can use our bot commands to check the best conversion rates. try \n" + "@1inch_comapre wbtc>eth"
                 fs.writeFileSync(savePath, mention.id_str);
+                console.log(mention.text);
                 continue;
             }
             const tweet = await client
                 .post("statuses/update", { in_reply_to_status_id: mention.id_str, status: "@" + mention.user.screen_name + " " + tweetText })
             fs.writeFileSync(savePath, mention.id_str);
 
-            console.log(tweet.text.entities.urls[0].url);
+            console.log(tweet.text, tweet.entities.urls[0].url);
         }
         dataBuffer = fs.readFileSync(savePath);
         since_id = dataBuffer.toString();
