@@ -128,7 +128,7 @@ run();
 // calling this function every 5 mins
 
 
-const time = parseInt(config.regularInterval*60*1000);
+const time = parseInt(config.regularTweetInterval*60*1000);
 // console.log(time);
 setInterval(run, time);
 
