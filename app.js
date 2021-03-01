@@ -38,7 +38,7 @@ const tweetThis = (tweet) => {
       console.log('You successfully tweeted this : "' + result.text + '"');
       console.log(result.entities.urls[0].url);
 
-      console.log(forSave);
+      // console.log(forSave);
       // if(forSave){
       //   const schema = new Schema({
       //     hash: forSave.transactionId,
@@ -127,6 +127,8 @@ run();
 
 // calling this function every 5 mins
 
-const time = parseInt(config.regularInterval*60*1000);
-setInterval(run, time);
+
+// const time = parseInt(config.regularInterval*60*1000);
+// console.log(time);
+// setInterval(run, time);
 

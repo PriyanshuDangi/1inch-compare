@@ -143,24 +143,26 @@ const mentionFunc = async () => {
                 "since_id": since_id
             }
         }
-        console.log(since_id, params);
+        // console.log(since_id, params);
 
         let url = '/statuses/mentions_timeline.json'
         const mentions = await client.get(url, params);
-        console.log(mentions)
+        console.log(mentions.length)
         // return;
-        console.log(since_id);
+        console.log("since_id", since_id);
         for (let i in mentions) {
             let mention = mentions[i];
             let tweetText = await tweetThis(mention.text);
             if(tweetText == null || tweetText == ''){
                 tweetText = "hey" + "@" + mention.user.screen_name + " , you can use our bot commands to check the best conversion rates. try \n" + "@1inch_comapre wbtc>eth"
+                fs.writeFileSync(savePath, mention.id_str);
+                continue;
             }
             const tweet = await client
                 .post("statuses/update", { in_reply_to_status_id: mention.id_str, status: "@" + mention.user.screen_name + " " + tweetText })
             fs.writeFileSync(savePath, mention.id_str);
 
-            console.log(tweet);
+            console.log(tweet.text.entities.urls[0].url);
         }
         dataBuffer = fs.readFileSync(savePath);
         since_id = dataBuffer.toString();
@@ -177,7 +179,6 @@ const mentionFunc = async () => {
 
 // test()
 
-let time = parseInt(config.regularInterval*60*1000);
-// console.log(typeof time);
-setInterval(mentionFunc, time);
+// let time = parseInt(config.regularInterval*60*1000);
+// setInterval(mentionFunc, time);
 mentionFunc();
