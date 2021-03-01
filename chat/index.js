@@ -179,6 +179,6 @@ const mentionFunc = async () => {
 
 // test()
 
-// let time = parseInt(config.regularInterval*60*1000);
-// setInterval(mentionFunc, time);
+let time = parseInt(config.regularInterval*60*1000);
+setInterval(mentionFunc, time);
 mentionFunc();
