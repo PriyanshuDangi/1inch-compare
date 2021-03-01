@@ -101,7 +101,7 @@ const run = async() =>{
   console.log("Getting data from other DEX Providers")
   let pairCount = 2, swapCount = 2;
   let dexIndex = Math.floor(Math.random() * dex.length);
-  let transactionInfo = await dex[0](pairCount, swapCount);
+  let transactionInfo = await dex[dexIndex](pairCount, swapCount);
 
   console.log("Got the data", transactionInfo);
   

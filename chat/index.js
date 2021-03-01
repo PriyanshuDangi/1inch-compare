@@ -163,7 +163,7 @@ const mentionFunc = async () => {
                 .post("statuses/update", { in_reply_to_status_id: mention.id_str, status: "@" + mention.user.screen_name + " " + tweetText })
             fs.writeFileSync(savePath, mention.id_str);
 
-            console.log(tweet.text, tweet.entities.urls[0].url);
+            console.log(mention.text, mention.entities.urls);
         }
         dataBuffer = fs.readFileSync(savePath);
         since_id = dataBuffer.toString();
