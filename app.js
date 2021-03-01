@@ -129,6 +129,6 @@ run();
 
 
 const time = parseInt(config.regularTweetInterval*60*1000);
-// console.log(time);
+console.log("timeApp", time);
 setInterval(run, time);
 

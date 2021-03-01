@@ -181,5 +181,6 @@ const mentionFunc = async () => {
 // test()
 
 let time = parseInt(config.regularChatInterval*60*1000);
+console.log("timeChat", time)
 setInterval(mentionFunc, time);
 mentionFunc();
