@@ -147,8 +147,9 @@ const mentionFunc = async () => {
 
         let url = '/statuses/mentions_timeline.json'
         const mentions = await client.get(url, params);
+        console.log(mentions)
         console.log(mentions.length)
-        // return;
+        return;
         console.log("since_id", since_id);
         for (let i in mentions) {
             let mention = mentions[i];
@@ -180,7 +181,7 @@ const mentionFunc = async () => {
 
 // test()
 
-let time = parseInt(config.regularChatInterval*60*1000);
-console.log("timeChat", time)
-setInterval(mentionFunc, time);
+// let time = parseInt(config.regularChatInterval*60*1000);
+// console.log("timeChat", time)
+// setInterval(mentionFunc, time);
 mentionFunc();
